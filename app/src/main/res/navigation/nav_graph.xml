@@ -12,7 +12,11 @@
         tools:layout="@layout/fragment_albums" >
         <action
             android:id="@+id/action_albumsFragment_to_albumDetailFragment"
-            app:destination="@id/albumDetailFragment" />
+            app:destination="@id/albumDetailFragment"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_right" />
     </fragment>
     <fragment
         android:id="@+id/albumDetailFragment"
@@ -21,7 +25,7 @@
         tools:layout="@layout/fragment_album_detail" >
         <action
             android:id="@+id/action_albumDetailFragment_to_albumsFragment"
-            app:destination="@id/albumsFragment" />
+            app:destination="@id/albumsFragment"/>
         <argument
             android:name="id"
             app:argType="long" />

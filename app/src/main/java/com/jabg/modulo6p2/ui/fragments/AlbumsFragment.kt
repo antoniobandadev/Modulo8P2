@@ -13,6 +13,7 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.google.android.material.snackbar.Snackbar
 import com.jabg.modulo6p2.R
 import com.jabg.modulo6p2.data.remote.NetworkConnection
 import com.jabg.modulo6p2.databinding.FragmentAlbumsBinding
@@ -29,6 +30,8 @@ class AlbumsFragment : Fragment() {
     private val viewModel : MainViewModel by viewModels()
     private lateinit var albumAdapter : AlbumAdapter
 
+
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -37,43 +40,51 @@ class AlbumsFragment : Fragment() {
         return binding.root
     }
 
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+            val  snackbar : Snackbar = Snackbar.make(view,getString(R.string.disconnected),Snackbar.LENGTH_INDEFINITE)
+            .setTextColor(requireContext().getColor(R.color.white))
 
-        val networkConnection = NetworkConnection(requireContext())
-        networkConnection.observe(viewLifecycleOwner){ isConnected ->
-            if(isConnected){
-                //Toast.makeText(context, "Connected", Toast.LENGTH_SHORT).show()
 
-                lifecycleScope.launch {
-                    try {
-                        binding.rvAlbums.apply {
-                            layoutManager = LinearLayoutManager(requireContext())
+                val networkConnection = NetworkConnection(requireContext())
+                networkConnection.observe(viewLifecycleOwner){ isConnected ->
+                    if(isConnected){
+                        snackbar.setText(getString(R.string.connected))
+                        snackbar.setBackgroundTint(requireContext().getColor(R.color.green))
+                        lifecycleScope.launch {
+                            try {
+                                binding.rvAlbums.apply {
+                                    layoutManager = LinearLayoutManager(requireContext())
 
-                            viewModel.album.observe(viewLifecycleOwner, Observer { album ->
-                                albumAdapter = AlbumAdapter(album){ selectedAlbum ->
-                                    //Toast.makeText(context, "Album: ${selectedAlbum.title}", Toast.LENGTH_SHORT).show()
-                                    findNavController().navigate(AlbumsFragmentDirections.actionAlbumsFragmentToAlbumDetailFragment(id = selectedAlbum.id, title = selectedAlbum.title))
+                                    viewModel.album.observe(viewLifecycleOwner, Observer { album ->
+                                        albumAdapter = AlbumAdapter(album){ selectedAlbum ->
+                                            //Toast.makeText(context, "Album: ${selectedAlbum.title}", Toast.LENGTH_SHORT).show()
+                                            findNavController().navigate(AlbumsFragmentDirections.actionAlbumsFragmentToAlbumDetailFragment(id = selectedAlbum.id, title = selectedAlbum.title))
+                                        }
+                                        adapter = albumAdapter
+
+                                        showData()
+                                        snackbar.dismiss()
+                                    })
                                 }
-                                adapter = albumAdapter
+                                viewModel.getAlbum()
 
-                            })
+                            }catch (e : Exception){
+                                e.printStackTrace()
+                            }finally {
+
+                            }
                         }
-                        viewModel.getAlbum()
 
-                    }catch (e : Exception){
-                        e.printStackTrace()
-                    }finally {
-                        binding.pbLoading.visibility = View.GONE
+                    } else {
+                        snackbar.setText(getString(R.string.disconnected))
+                        snackbar.setBackgroundTint(requireContext().getColor(R.color.red))
+                        snackbar.show()
                     }
+
                 }
-
-            } else {
-                Toast.makeText(context, "Desconnected", Toast.LENGTH_SHORT).show()
-            }
-
-        }
 
     }
 
@@ -81,5 +92,11 @@ class AlbumsFragment : Fragment() {
         super.onDestroy()
         _binding = null
     }
+
+    private fun showData(){
+        binding.viewAlbumLoad.visibility = View.GONE
+        binding.rvAlbums.visibility = View.VISIBLE
+    }
+
 
 }

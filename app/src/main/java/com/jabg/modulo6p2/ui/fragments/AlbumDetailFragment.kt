@@ -1,5 +1,6 @@
 package com.jabg.modulo6p2.ui.fragments
 
+import android.graphics.Bitmap
 import android.graphics.drawable.Drawable
 import android.graphics.text.LineBreaker
 import android.os.Build
@@ -18,6 +19,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.target.CustomTarget
 import com.bumptech.glide.request.transition.Transition
+import com.google.android.material.snackbar.Snackbar
 import com.jabg.modulo6p2.R
 import com.jabg.modulo6p2.data.remote.NetworkConnection
 import com.jabg.modulo6p2.databinding.FragmentAlbumDetailBinding
@@ -44,10 +46,15 @@ class AlbumDetailFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        val  snackbar : Snackbar = Snackbar.make(view,getString(R.string.disconnected), Snackbar.LENGTH_INDEFINITE)
+            .setTextColor(requireContext().getColor(R.color.white))
+
         val networkConnection = NetworkConnection(requireContext())
         networkConnection.observe(viewLifecycleOwner){ isConnected ->
             if(isConnected){
-               // Toast.makeText(context, "Connected", Toast.LENGTH_SHORT).show()
+                snackbar.setText(getString(R.string.connected))
+                snackbar.setBackgroundTint(requireContext().getColor(R.color.green))
+
                 viewModel.getAlbumDetail(args.id)
 
                 lifecycleScope.launch {
@@ -58,35 +65,17 @@ class AlbumDetailFragment : Fragment() {
 
                             viewModel.albumDet.observe(viewLifecycleOwner, Observer { albumDetail ->
 
-
-
-                                Glide.with(binding.root.context)
-                                    .load(albumDetail.albumBack)
-                                    .placeholder(R.drawable.foals)
-                                    .into(binding.ivImage)
-
-                                    tvLongDesc.text = albumDetail.description
-                                    tvGenre.text = albumDetail.genre
-                                    tvDuration.text = albumDetail.totalDuration
-                                    tvProducers.text = albumDetail.producers
-                                    tvSingles.text = albumDetail.highlightedSingles
-                                    tvCritical.text = albumDetail.criticalReception
-                                    if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q)
-                                        tvLongDesc.justificationMode = LineBreaker.JUSTIFICATION_MODE_INTER_WORD
-
-                                    binding.pbLoading.visibility = View.GONE
-
-                                /*Glide.with(requireActivity())
+                                Glide.with(requireActivity())
                                     .load(albumDetail.albumBack)
                                     .into(object : CustomTarget<Drawable>() {
                                         override fun onResourceReady(
                                             resource: Drawable,
                                             transition: Transition<in Drawable>?
                                         ) {
-                                            // Una vez que la imagen se ha cargado, la mostramos
+
                                             ivImage.setImageDrawable(resource)
 
-                                            // Luego mostramos el resto de la información
+
                                             tvLongDesc.text = albumDetail.description
                                             tvGenre.text = albumDetail.genre
                                             tvDuration.text = albumDetail.totalDuration
@@ -96,21 +85,19 @@ class AlbumDetailFragment : Fragment() {
                                             if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q)
                                                 tvLongDesc.justificationMode = LineBreaker.JUSTIFICATION_MODE_INTER_WORD
 
-                                            binding.pbLoading.visibility = View.GONE
+                                            showData()
+                                            snackbar.dismiss()
 
                                         }
 
                                         override fun onLoadCleared(placeholder: Drawable?) {
-                                            // Aquí puedes poner un placeholder o manejar lo que pasa si la imagen se elimina
+
                                         }
 
                                         override fun onLoadFailed(errorDrawable: Drawable?) {
-                                            // Si la carga falla, puedes mostrar un mensaje o imagen por defecto
-                                            ivImage.setImageDrawable(errorDrawable) //Default Glide
-                                            //ivImage.setImageDrawable(ContextCompat.getDrawable(requireContext(), R.drawable.loading)) //Personalizada
-
+                                            ivImage.setImageDrawable(errorDrawable)
                                         }
-                                    })*/
+                                    })
                             })
                         }
                         viewModel.getAlbumDetail(args.id)
@@ -123,19 +110,23 @@ class AlbumDetailFragment : Fragment() {
                 }
 
             } else {
-                Toast.makeText(context, "Desconnected", Toast.LENGTH_SHORT).show()
+                snackbar.setText(getString(R.string.disconnected))
+                snackbar.setBackgroundTint(requireContext().getColor(R.color.red))
+                snackbar.show()
+
             }
 
         }
-
-
-
-
     }
 
     override fun onDestroy() {
         super.onDestroy()
         _binding = null
+    }
+
+    private fun showData(){
+        binding.viewAlbumDetLoad.visibility = View.GONE
+        binding.viewAlbumDetComplete.visibility = View.VISIBLE
     }
 
 

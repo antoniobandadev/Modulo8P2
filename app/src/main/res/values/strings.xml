@@ -1,4 +1,14 @@
 <resources>
     <string name="app_name">Modulo6P2</string>
     <string name="foals">Foals</string>
+
+    <string name="about">Acerca de</string>
+    <string name="duration">Duracion</string>
+    <string name="genre">Genero</string>
+    <string name="producers">Productores</string>
+    <string name="singles">Sencillos</string>
+    <string name="critical">Critica</string>
+
+    <string name="connected">¡Estás conectado!</string>
+    <string name="disconnected">¡Ups! No se puede acceder a internet</string>
 </resources>

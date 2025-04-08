@@ -1,5 +1,6 @@
 package com.jabg.modulo6p2.ui
 
+import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
 import android.util.Log
 import android.view.View
@@ -8,6 +9,7 @@ import androidx.activity.addCallback
 import androidx.activity.enableEdgeToEdge
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.content.ContextCompat
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
@@ -23,6 +25,7 @@ import com.jabg.modulo6p2.databinding.ActivityMainBinding
 import com.jabg.modulo6p2.utils.Constants
 import kotlinx.coroutines.launch
 import retrofit2.Retrofit
+import androidx.core.graphics.drawable.toDrawable
 
 class MainActivity : AppCompatActivity() {
 
@@ -38,13 +41,13 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
 
-        enableEdgeToEdge()
+        //enableEdgeToEdge()
         setContentView(binding.root)
-        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main)) { v, insets ->
+       /* ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main)) { v, insets ->
             val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
             insets
-        }
+        }*/
 
         val navHostFragment = supportFragmentManager.findFragmentById(R.id.fragmentNavContainer) as NavHostFragment
         navController = navHostFragment.navController
@@ -53,24 +56,6 @@ class MainActivity : AppCompatActivity() {
 
         screenSplash.setKeepOnScreenCondition {false}
 
-
-        /*retrofit = RetrofitHelper().getRetrofit()
-        repository = AlbumRepository(retrofit)
-
-        lifecycleScope.launch {
-            try {
-                /*val albums = repository.getAllAlbums()
-                Log.d(Constants.LOGTAG, "Respuesta: $albums")*/
-
-                val albumDet = repository.getDetAlbum("48392")
-                Log.d(Constants.LOGTAG, "Respuesta detalle: $albumDet")
-
-            }catch (e: Exception){
-                e.printStackTrace()
-            }catch (e: Error){
-                e.printStackTrace()
-            }
-        }*/
 
         onBackPressedDispatcher.addCallback(this) {
             if (!navController.popBackStack()) {

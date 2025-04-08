@@ -4,12 +4,14 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#141A31"
+    android:background="@color/colorPrimary"
     tools:context=".ui.fragments.AlbumDetailFragment">
 
     <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/viewAlbumDetComplete"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:visibility="invisible">
 
         <RelativeLayout
             android:layout_width="match_parent"
@@ -32,7 +34,8 @@
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:orientation="vertical">
+                    android:orientation="vertical"
+                    >
 
                     <TextView
                         android:id="@+id/tvTitle"
@@ -40,7 +43,7 @@
                         android:layout_height="wrap_content"
                         android:gravity="center_horizontal"
                         android:paddingBottom="10dp"
-                        android:textColor="@color/white"
+                        android:textColor="@color/colorAccent"
                         android:textStyle="bold"
                         android:textSize="25sp"
                         tools:text="Title" />
@@ -48,11 +51,10 @@
                     <com.makeramen.roundedimageview.RoundedImageView
                         android:id="@+id/ivImage"
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
+                        android:layout_height="270dp"
                         android:layout_marginStart="20dp"
                         android:layout_marginEnd="20dp"
-                        app:riv_corner_radius="10dp"
-                        tools:src="@mipmap/ic_launcher" />
+                        app:riv_corner_radius="10dp" />
 
                     <TextView
                         android:id="@+id/tvTDesc"
@@ -60,10 +62,10 @@
                         android:layout_height="wrap_content"
                         android:paddingHorizontal="10dp"
                         android:paddingTop="5dp"
-                        android:textColor="@color/white"
+                        android:textColor="@color/colorAccent"
                         android:textSize="15sp"
                         android:textStyle="bold"
-                        android:text="Acerca de" />
+                        android:text="@string/about" />
 
                     <TextView
                         android:id="@+id/tvLongDesc"
@@ -83,10 +85,10 @@
                         android:layout_height="wrap_content"
                         android:paddingHorizontal="10dp"
                         android:paddingTop="5dp"
-                        android:textColor="@color/white"
+                        android:textColor="@color/colorAccent"
                         android:textSize="15sp"
                         android:textStyle="bold"
-                        android:text="Duracion" />
+                        android:text="@string/duration" />
 
                     <TextView
                         android:id="@+id/tvDuration"
@@ -106,10 +108,10 @@
                         android:layout_height="wrap_content"
                         android:paddingHorizontal="10dp"
                         android:paddingTop="5dp"
-                        android:textColor="@color/white"
+                        android:textColor="@color/colorAccent"
                         android:textSize="15sp"
                         android:textStyle="bold"
-                        android:text="Genero" />
+                        android:text="@string/genre" />
 
                     <TextView
                         android:id="@+id/tvGenre"
@@ -128,10 +130,10 @@
                         android:layout_height="wrap_content"
                         android:paddingHorizontal="10dp"
                         android:paddingTop="5dp"
-                        android:textColor="@color/white"
+                        android:textColor="@color/colorAccent"
                         android:textSize="15sp"
                         android:textStyle="bold"
-                        android:text="Productores" />
+                        android:text="@string/producers" />
 
                     <TextView
                         android:id="@+id/tvProducers"
@@ -151,10 +153,10 @@
                         android:layout_height="wrap_content"
                         android:paddingHorizontal="10dp"
                         android:paddingTop="5dp"
-                        android:textColor="@color/white"
+                        android:textColor="@color/colorAccent"
                         android:textSize="15sp"
                         android:textStyle="bold"
-                        android:text="Sencillos" />
+                        android:text="@string/singles" />
 
                     <TextView
                         android:id="@+id/tvSingles"
@@ -173,10 +175,10 @@
                         android:layout_height="wrap_content"
                         android:paddingHorizontal="10dp"
                         android:paddingTop="5dp"
-                        android:textColor="@color/white"
+                        android:textColor="@color/colorAccent"
                         android:textSize="15sp"
                         android:textStyle="bold"
-                        android:text="Critica" />
+                        android:text="@string/critical" />
 
                     <TextView
                         android:id="@+id/tvCritical"
@@ -189,23 +191,20 @@
                         android:textColor="@color/white"
                         android:textSize="13sp"
                         tools:text="Critical" />
-
-
-
                 </LinearLayout>
-            </ScrollView>
 
-            <ProgressBar
-                android:id="@+id/pbLoading"
-                android:layout_width="50dp"
-                android:layout_height="50dp"
-                android:layout_centerInParent="true"
-                android:indeterminateDrawable="@drawable/loading_anim"
-                android:indeterminateDuration="1000"
-                />
+            </ScrollView>
 
         </RelativeLayout>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <androidx.appcompat.widget.LinearLayoutCompat
+        android:id="@+id/viewAlbumDetLoad"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+         <include layout="@layout/fragment_detail_load"/>
+    </androidx.appcompat.widget.LinearLayoutCompat>
 
 </FrameLayout>
