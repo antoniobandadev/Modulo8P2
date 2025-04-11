@@ -1,6 +1,5 @@
 package com.jabg.modulo6p2.ui
 
-import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -9,7 +8,6 @@ import com.jabg.modulo6p2.data.AlbumRepository
 import com.jabg.modulo6p2.data.remote.RetrofitHelper
 import com.jabg.modulo6p2.data.remote.model.AlbumDetDto
 import com.jabg.modulo6p2.data.remote.model.AlbumDto
-import com.jabg.modulo6p2.utils.Constants
 import kotlinx.coroutines.launch
 import retrofit2.Retrofit
 import java.io.IOException
@@ -35,7 +33,6 @@ class MainViewModel: ViewModel() {
             try {
                 val albums = repository.getAllAlbums()
                 _album.value = albums
-                Log.d(Constants.LOGTAG, "Respuesta: $albums")
 
             }catch (e : IOException){
                 e.printStackTrace()
@@ -54,7 +51,6 @@ class MainViewModel: ViewModel() {
                 val albumDetail = repository.getDetAlbum(id)
                 _albumDet.value = albumDetail
 
-                Log.d(Constants.LOGTAG, "Respuesta Detalle: $albumDetail")
 
             }catch (e : Exception){
                 e.printStackTrace()

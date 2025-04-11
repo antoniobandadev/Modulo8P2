@@ -74,7 +74,7 @@ dependencies {
     implementation (libs.androidx.navigation.fragment.ktx)
     implementation (libs.androidx.navigation.ui.ktx)
     //ShimmerFacebook
-    implementation("com.facebook.shimmer:shimmer:0.5.0")
+    implementation(libs.shimmer)
 
 
     testImplementation(libs.junit)
