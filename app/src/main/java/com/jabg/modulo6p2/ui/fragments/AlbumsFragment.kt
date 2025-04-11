@@ -31,7 +31,7 @@ class AlbumsFragment : Fragment() {
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         _binding = FragmentAlbumsBinding.inflate(inflater,container,false)
         return binding.root
     }
@@ -56,7 +56,6 @@ class AlbumsFragment : Fragment() {
 
                                     viewModel.album.observe(viewLifecycleOwner, Observer { album ->
                                         albumAdapter = AlbumAdapter(album){ selectedAlbum ->
-                                            //Toast.makeText(context, "Album: ${selectedAlbum.title}", Toast.LENGTH_SHORT).show()
                                             findNavController().navigate(AlbumsFragmentDirections.actionAlbumsFragmentToAlbumDetailFragment(id = selectedAlbum.id, title = selectedAlbum.title))
                                         }
                                         adapter = albumAdapter

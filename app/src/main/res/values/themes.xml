@@ -1,4 +1,4 @@
-<resources xmlns:tools="http://schemas.android.com/tools">
+<resources>
     <!-- Base application theme. -->
     <style name="Base.Theme.Modulo6P2" parent="Theme.AppCompat.DayNight">
         <!-- Customize your light theme here. -->
