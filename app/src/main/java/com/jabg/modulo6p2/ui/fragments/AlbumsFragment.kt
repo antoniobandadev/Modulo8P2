@@ -1,7 +1,5 @@
 package com.jabg.modulo6p2.ui.fragments
 
-import android.content.pm.ActivityInfo
-import android.media.MediaPlayer
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
