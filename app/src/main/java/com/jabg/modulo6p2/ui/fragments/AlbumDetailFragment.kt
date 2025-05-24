@@ -35,6 +35,8 @@ class AlbumDetailFragment : Fragment() {
     private val viewModel : MainViewModel by viewModels()
     private val args: AlbumDetailFragmentArgs by navArgs()
 
+    private var player: YouTubePlayer? = null
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -88,6 +90,7 @@ class AlbumDetailFragment : Fragment() {
                                             vvYoutube.addYouTubePlayerListener(object : AbstractYouTubePlayerListener(){
                                                 override fun onReady(youTubePlayer: YouTubePlayer) {
                                                     super.onReady(youTubePlayer)
+                                                    player = youTubePlayer
                                                     youTubePlayer.loadVideo(albumDetail.videoId.toString(), 0f)
                                                     showData()
                                                 }
@@ -109,16 +112,15 @@ class AlbumDetailFragment : Fragment() {
                                                         }
                                                         PlayerConstants.PlayerState.PAUSED -> {
                                                             Log.d("YouTubePlayer", "Video paused")
-                                                            (activity as? MainActivity)?.resumeAudio()
                                                         }
                                                         PlayerConstants.PlayerState.ENDED -> {
                                                             Log.d("YouTubePlayer", "Video ended")
-                                                            (activity as? MainActivity)?.resumeAudio()
                                                         }else -> {
 
                                                         }
                                                     }
                                                 }
+
                                             })
 
                                             snackbar.dismiss()
@@ -158,12 +160,21 @@ class AlbumDetailFragment : Fragment() {
         super.onDestroy()
         binding.vvYoutube.release()
         _binding = null
+        (activity as? MainActivity)?.resumeAudio()
+
     }
+
+    override fun onResume() {
+        super.onResume()
+        player?.play()
+    }
+
 
     private fun showData(){
         binding.viewAlbumDetLoad.visibility = View.GONE
         binding.viewAlbumDetComplete.visibility = View.VISIBLE
     }
+
 
 
 }

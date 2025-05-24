@@ -28,10 +28,7 @@ class MainActivity : AppCompatActivity() {
 
         //enableEdgeToEdge()
         setContentView(binding.root)
-
-        mediaPlayer = MediaPlayer.create(this, R.raw.foals)
-        mediaPlayer.isLooping = true
-        mediaPlayer.start()
+        playAudio()
 
        /* ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main)) { v, insets ->
             val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
@@ -59,28 +56,37 @@ class MainActivity : AppCompatActivity() {
     }
 
     fun pauseAudio() {
-        mediaPlayer.pause()
+            mediaPlayer.pause()
     }
 
     fun resumeAudio() {
-        mediaPlayer.start()
+            mediaPlayer.start()
     }
 
     override fun onDestroy() {
         super.onDestroy()
         mediaPlayer.release()
     }
+    override fun onStop() {
+        super.onStop()
+        pauseAudio()
+    }
 
     override fun onPause() {
         super.onPause()
-        mediaPlayer.pause()
+        pauseAudio()
     }
 
-    override fun onRestart() {
-        super.onRestart()
+    fun stopAudio() {
+        mediaPlayer.stop()
+    }
+
+    fun playAudio() {
+        val songs = listOf(R.raw.foals, R.raw.foals2, R.raw.foals3)
+        val song = songs.random()
+        mediaPlayer = MediaPlayer.create(this, song)
+        mediaPlayer.isLooping = true
         mediaPlayer.start()
     }
-
-
 
 }
