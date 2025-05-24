@@ -1,5 +1,7 @@
 package com.jabg.modulo6p2.ui.fragments
 
+import android.content.pm.ActivityInfo
+import android.media.MediaPlayer
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -25,7 +27,6 @@ class AlbumsFragment : Fragment() {
 
     private val viewModel : MainViewModel by viewModels()
     private lateinit var albumAdapter : AlbumAdapter
-
 
 
     override fun onCreateView(
@@ -92,6 +93,5 @@ class AlbumsFragment : Fragment() {
         binding.viewAlbumLoad.visibility = View.GONE
         binding.rvAlbums.visibility = View.VISIBLE
     }
-
 
 }

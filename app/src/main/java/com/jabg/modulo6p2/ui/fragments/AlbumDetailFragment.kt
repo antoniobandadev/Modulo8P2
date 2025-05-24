@@ -4,6 +4,7 @@ import android.graphics.drawable.Drawable
 import android.graphics.text.LineBreaker
 import android.os.Build
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -19,7 +20,11 @@ import com.google.android.material.snackbar.Snackbar
 import com.jabg.modulo6p2.R
 import com.jabg.modulo6p2.data.remote.NetworkConnection
 import com.jabg.modulo6p2.databinding.FragmentAlbumDetailBinding
+import com.jabg.modulo6p2.ui.MainActivity
 import com.jabg.modulo6p2.ui.MainViewModel
+import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.PlayerConstants
+import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.YouTubePlayer
+import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.listeners.AbstractYouTubePlayerListener
 import kotlinx.coroutines.launch
 
 class AlbumDetailFragment : Fragment() {
@@ -40,6 +45,7 @@ class AlbumDetailFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        lifecycle.addObserver(binding.vvYoutube)
 
         val  snackbar : Snackbar = Snackbar.make(view,getString(R.string.disconnected), Snackbar.LENGTH_INDEFINITE)
             .setTextColor(requireContext().getColor(R.color.white))
@@ -60,6 +66,7 @@ class AlbumDetailFragment : Fragment() {
 
                             viewModel.albumDet.observe(viewLifecycleOwner, Observer { albumDetail ->
 
+
                                 Glide.with(requireActivity())
                                     .load(albumDetail.albumBack)
                                     .into(object : CustomTarget<Drawable>() {
@@ -69,8 +76,6 @@ class AlbumDetailFragment : Fragment() {
                                         ) {
 
                                             ivImage.setImageDrawable(resource)
-
-
                                             tvLongDesc.text = albumDetail.description
                                             tvGenre.text = albumDetail.genre
                                             tvDuration.text = albumDetail.totalDuration
@@ -80,7 +85,42 @@ class AlbumDetailFragment : Fragment() {
                                             if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q)
                                                 tvLongDesc.justificationMode = LineBreaker.JUSTIFICATION_MODE_INTER_WORD
 
-                                            showData()
+                                            vvYoutube.addYouTubePlayerListener(object : AbstractYouTubePlayerListener(){
+                                                override fun onReady(youTubePlayer: YouTubePlayer) {
+                                                    super.onReady(youTubePlayer)
+                                                    youTubePlayer.loadVideo(albumDetail.videoId.toString(), 0f)
+                                                    showData()
+                                                }
+                                                override fun onStateChange(youTubePlayer: YouTubePlayer, state: PlayerConstants.PlayerState) {
+
+                                                    when(state) {
+                                                        PlayerConstants.PlayerState.UNSTARTED -> {
+                                                            Log.d("YouTubePlayer", "Video no initialized")
+                                                        }
+                                                        PlayerConstants.PlayerState.VIDEO_CUED -> {
+                                                            Log.d("YouTubePlayer", "Video ready")
+                                                        }
+                                                        PlayerConstants.PlayerState.BUFFERING -> {
+                                                            Log.d("YouTubePlayer", "Video loading (buffering)")
+                                                        }
+                                                        PlayerConstants.PlayerState.PLAYING -> {
+                                                            Log.d("YouTubePlayer", "Video playing")
+                                                            (activity as? MainActivity)?.pauseAudio()
+                                                        }
+                                                        PlayerConstants.PlayerState.PAUSED -> {
+                                                            Log.d("YouTubePlayer", "Video paused")
+                                                            (activity as? MainActivity)?.resumeAudio()
+                                                        }
+                                                        PlayerConstants.PlayerState.ENDED -> {
+                                                            Log.d("YouTubePlayer", "Video ended")
+                                                            (activity as? MainActivity)?.resumeAudio()
+                                                        }else -> {
+
+                                                        }
+                                                    }
+                                                }
+                                            })
+
                                             snackbar.dismiss()
 
                                         }
@@ -116,6 +156,7 @@ class AlbumDetailFragment : Fragment() {
 
     override fun onDestroy() {
         super.onDestroy()
+        binding.vvYoutube.release()
         _binding = null
     }
 

@@ -75,6 +75,8 @@ dependencies {
     implementation (libs.androidx.navigation.ui.ktx)
     //ShimmerFacebook
     implementation(libs.shimmer)
+    //Videos en YouTube
+    implementation(libs.core)
 
 
     testImplementation(libs.junit)

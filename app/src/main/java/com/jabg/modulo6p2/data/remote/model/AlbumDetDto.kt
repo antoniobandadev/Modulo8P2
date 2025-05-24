@@ -29,4 +29,7 @@ data class AlbumDetDto (
 
     @SerializedName("track_count")
     var trackCount: Long = 0,
+
+    @SerializedName("video")
+    var videoId: String? = null
 )
