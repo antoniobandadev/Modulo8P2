@@ -82,7 +82,7 @@ class AlbumsFragment : Fragment() {
                                 binding.rvAlbums.apply {
                                     layoutManager = LinearLayoutManager(requireContext())
 
-                                    viewModel.album.observe(viewLifecycleOwner, Observer { album ->
+                                    viewModel.album.observe(viewLifecycleOwner) { album ->
                                         albumAdapter = AlbumAdapter(album){ selectedAlbum ->
                                             findNavController().navigate(AlbumsFragmentDirections.actionAlbumsFragmentToAlbumDetailFragment(id = selectedAlbum.id, title = selectedAlbum.title))
                                         }
@@ -90,7 +90,7 @@ class AlbumsFragment : Fragment() {
 
                                         showData()
                                         snackbar.dismiss()
-                                    })
+                                    }
                                 }
                                 viewModel.getAlbum()
 

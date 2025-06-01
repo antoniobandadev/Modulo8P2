@@ -29,6 +29,7 @@
                 android:layout_height="30dp"
                 android:src="@drawable/ic_music"
                 app:tint="@color/colorAccent"
+                tools:ignore="ContentDescription"
                 />
             <Switch
                 android:id="@+id/swSound"
@@ -51,7 +52,7 @@
                 android:src="@drawable/ic_log_out"
                 app:tint="@color/colorAccent"
                 android:layout_weight="1"
-                />
+                tools:ignore="ContentDescription" />
         </LinearLayout>
 
         <androidx.recyclerview.widget.RecyclerView
