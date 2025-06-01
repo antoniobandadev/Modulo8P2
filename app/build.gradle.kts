@@ -92,7 +92,7 @@ dependencies {
     implementation(libs.core)
     implementation(libs.firebase.auth)
     // Google Maps
-    implementation("com.google.android.gms:play-services-maps:19.2.0")
+    implementation(libs.play.services.maps)
 
 
     testImplementation(libs.junit)

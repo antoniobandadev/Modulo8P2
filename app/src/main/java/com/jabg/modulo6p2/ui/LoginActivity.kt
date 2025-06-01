@@ -1,4 +1,4 @@
-package com.jabg.modulo6p2.ui.fragments
+package com.jabg.modulo6p2.ui
 
 import android.content.Intent
 import android.os.Bundle
@@ -19,7 +19,6 @@ import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.firebase.auth.AuthResult
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseAuthException
-import com.jabg.modulo6p2.ui.MainActivity
 import com.jabg.modulo6p2.utils.message
 import com.jabg.modulo6p2.utils.setupHideKeyboardOnTouch
 

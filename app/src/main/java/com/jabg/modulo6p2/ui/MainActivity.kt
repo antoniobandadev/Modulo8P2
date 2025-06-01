@@ -1,6 +1,5 @@
 package com.jabg.modulo6p2.ui
 
-import android.content.Intent
 import android.media.MediaPlayer
 import android.os.Bundle
 import androidx.activity.addCallback
@@ -8,8 +7,6 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.navigation.NavController
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.NavigationUI
-import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.auth.FirebaseUser
 import com.jabg.modulo6p2.R
 import com.jabg.modulo6p2.databinding.ActivityMainBinding
 

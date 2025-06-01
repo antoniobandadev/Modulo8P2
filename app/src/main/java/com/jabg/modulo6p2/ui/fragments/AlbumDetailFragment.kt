@@ -4,14 +4,12 @@ import android.graphics.drawable.Drawable
 import android.graphics.text.LineBreaker
 import android.os.Build
 import android.os.Bundle
-import android.provider.ContactsContract.SearchSnippets
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
-import androidx.lifecycle.Observer
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.navArgs
 import com.bumptech.glide.Glide
@@ -24,7 +22,6 @@ import com.google.android.gms.maps.SupportMapFragment
 import com.google.android.gms.maps.model.BitmapDescriptorFactory
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.MarkerOptions
-import com.google.android.gms.maps.model.Tile
 import com.google.android.material.snackbar.Snackbar
 import com.jabg.modulo6p2.R
 import com.jabg.modulo6p2.data.remote.NetworkConnection
@@ -64,14 +61,14 @@ class AlbumDetailFragment : Fragment(), OnMapReadyCallback {
 
         lifecycle.addObserver(binding.vvYoutube)
 
-        val  snackbar : Snackbar = Snackbar.make(view,getString(R.string.disconnected), Snackbar.LENGTH_INDEFINITE)
+        val  snackBar : Snackbar = Snackbar.make(view,getString(R.string.disconnected), Snackbar.LENGTH_INDEFINITE)
             .setTextColor(requireContext().getColor(R.color.white))
 
         val networkConnection = NetworkConnection(requireContext())
         networkConnection.observe(viewLifecycleOwner){ isConnected ->
             if(isConnected){
-                snackbar.setText(getString(R.string.connected))
-                snackbar.setBackgroundTint(requireContext().getColor(R.color.green))
+                snackBar.setText(getString(R.string.connected))
+                snackBar.setBackgroundTint(requireContext().getColor(R.color.green))
 
                 viewModel.getAlbumDetail(args.id)
 
@@ -81,7 +78,7 @@ class AlbumDetailFragment : Fragment(), OnMapReadyCallback {
 
                             tvTitle.text = args.title
 
-                            viewModel.albumDet.observe(viewLifecycleOwner, Observer { albumDetail ->
+                            viewModel.albumDet.observe(viewLifecycleOwner) { albumDetail ->
 
                                 Glide.with(requireActivity())
                                     .load(albumDetail.albumBack)
@@ -137,7 +134,7 @@ class AlbumDetailFragment : Fragment(), OnMapReadyCallback {
 
                                             })
 
-                                            snackbar.dismiss()
+                                            snackBar.dismiss()
 
                                         }
 
@@ -149,7 +146,7 @@ class AlbumDetailFragment : Fragment(), OnMapReadyCallback {
                                             ivImage.setImageDrawable(errorDrawable)
                                         }
                                     })
-                            })
+                            }
                         }
                         viewModel.getAlbumDetail(args.id)
 
@@ -161,9 +158,9 @@ class AlbumDetailFragment : Fragment(), OnMapReadyCallback {
                 }
 
             } else {
-                snackbar.setText(getString(R.string.disconnected))
-                snackbar.setBackgroundTint(requireContext().getColor(R.color.red))
-                snackbar.show()
+                snackBar.setText(getString(R.string.disconnected))
+                snackBar.setBackgroundTint(requireContext().getColor(R.color.red))
+                snackBar.show()
 
             }
 
@@ -172,14 +169,14 @@ class AlbumDetailFragment : Fragment(), OnMapReadyCallback {
 
     override fun onMapReady(map: GoogleMap) {
         googleMap = map
-        viewModel.albumDet.observe(viewLifecycleOwner, Observer { albumDetail ->
+        viewModel.albumDet.observe(viewLifecycleOwner) { albumDetail ->
 
             createMaker(albumDetail.latitude?.toDouble() ?: 0.0,
                         albumDetail.longitude?.toDouble() ?: 0.0,
                             albumDetail.studio.toString(),
                             albumDetail.location.toString())
 
-        })
+        }
     }
 
     private fun createMaker(lat: Double, lon: Double, title: String, snippet: String){
