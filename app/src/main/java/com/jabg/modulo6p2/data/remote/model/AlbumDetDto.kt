@@ -31,5 +31,17 @@ data class AlbumDetDto (
     var trackCount: Long = 0,
 
     @SerializedName("video")
-    var videoId: String? = null
+    var videoId: String? = null,
+
+    @SerializedName("studio")
+    var studio: String? = null,
+
+    @SerializedName("location")
+    var location: String? = null,
+
+    @SerializedName("latitude")
+    var latitude: String? = null,
+
+    @SerializedName("longitude")
+    var longitude: String? = null,
 )

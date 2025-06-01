@@ -4,6 +4,7 @@ import android.graphics.drawable.Drawable
 import android.graphics.text.LineBreaker
 import android.os.Build
 import android.os.Bundle
+import android.provider.ContactsContract.SearchSnippets
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
@@ -16,6 +17,14 @@ import androidx.navigation.fragment.navArgs
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.target.CustomTarget
 import com.bumptech.glide.request.transition.Transition
+import com.google.android.gms.maps.CameraUpdateFactory
+import com.google.android.gms.maps.GoogleMap
+import com.google.android.gms.maps.OnMapReadyCallback
+import com.google.android.gms.maps.SupportMapFragment
+import com.google.android.gms.maps.model.BitmapDescriptorFactory
+import com.google.android.gms.maps.model.LatLng
+import com.google.android.gms.maps.model.MarkerOptions
+import com.google.android.gms.maps.model.Tile
 import com.google.android.material.snackbar.Snackbar
 import com.jabg.modulo6p2.R
 import com.jabg.modulo6p2.data.remote.NetworkConnection
@@ -27,7 +36,7 @@ import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.YouTubePlayer
 import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.listeners.AbstractYouTubePlayerListener
 import kotlinx.coroutines.launch
 
-class AlbumDetailFragment : Fragment() {
+class AlbumDetailFragment : Fragment(), OnMapReadyCallback {
 
     private var _binding : FragmentAlbumDetailBinding? = null
     private val binding get() = _binding!!
@@ -36,6 +45,8 @@ class AlbumDetailFragment : Fragment() {
     private val args: AlbumDetailFragmentArgs by navArgs()
 
     private var player: YouTubePlayer? = null
+
+    private lateinit var googleMap : GoogleMap
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -47,6 +58,10 @@ class AlbumDetailFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        val mapFragment = childFragmentManager.findFragmentById(R.id.map) as SupportMapFragment
+        mapFragment.getMapAsync(this)
+
         lifecycle.addObserver(binding.vvYoutube)
 
         val  snackbar : Snackbar = Snackbar.make(view,getString(R.string.disconnected), Snackbar.LENGTH_INDEFINITE)
@@ -67,7 +82,6 @@ class AlbumDetailFragment : Fragment() {
                             tvTitle.text = args.title
 
                             viewModel.albumDet.observe(viewLifecycleOwner, Observer { albumDetail ->
-
 
                                 Glide.with(requireActivity())
                                     .load(albumDetail.albumBack)
@@ -155,6 +169,35 @@ class AlbumDetailFragment : Fragment() {
 
         }
     }
+
+    override fun onMapReady(map: GoogleMap) {
+        googleMap = map
+        viewModel.albumDet.observe(viewLifecycleOwner, Observer { albumDetail ->
+
+            createMaker(albumDetail.latitude?.toDouble() ?: 0.0,
+                        albumDetail.longitude?.toDouble() ?: 0.0,
+                            albumDetail.studio.toString(),
+                            albumDetail.location.toString())
+
+        })
+    }
+
+    private fun createMaker(lat: Double, lon: Double, title: String, snippet: String){
+        val coordinates = LatLng(lat, lon)
+        val marker = MarkerOptions()
+            .position(coordinates)
+            .title(title)
+            .snippet(snippet)
+            .icon(BitmapDescriptorFactory.fromResource(R.drawable.guitar))
+        googleMap.addMarker(marker)
+        googleMap.animateCamera(
+            CameraUpdateFactory.newLatLngZoom(coordinates, 18f),
+            4_000,
+            null
+        )
+    }
+
+
 
     override fun onDestroy() {
         super.onDestroy()

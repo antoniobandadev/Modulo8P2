@@ -1,13 +1,15 @@
 package com.jabg.modulo6p2.ui
 
+import android.content.Intent
 import android.media.MediaPlayer
 import android.os.Bundle
 import androidx.activity.addCallback
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import androidx.navigation.NavController
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.NavigationUI
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.auth.FirebaseUser
 import com.jabg.modulo6p2.R
 import com.jabg.modulo6p2.databinding.ActivityMainBinding
 
@@ -21,11 +23,9 @@ class MainActivity : AppCompatActivity() {
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
-        val screenSplash = installSplashScreen()
 
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
-
         //enableEdgeToEdge()
         setContentView(binding.root)
         playAudio()
@@ -39,10 +39,6 @@ class MainActivity : AppCompatActivity() {
         val navHostFragment = supportFragmentManager.findFragmentById(R.id.fragmentNavContainer) as NavHostFragment
         navController = navHostFragment.navController
         NavigationUI.setupActionBarWithNavController(this, navController)
-
-
-        screenSplash.setKeepOnScreenCondition {false}
-
 
         onBackPressedDispatcher.addCallback(this) {
             if (!navController.popBackStack()) {

@@ -1,22 +1,32 @@
 package com.jabg.modulo6p2.ui.fragments
 
+import android.content.Intent
 import android.os.Bundle
+import android.text.InputType
+import android.util.Patterns
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.EditText
+import android.widget.Toast
+import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.android.material.snackbar.Snackbar
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.auth.FirebaseUser
 import com.jabg.modulo6p2.R
 import com.jabg.modulo6p2.data.remote.NetworkConnection
 import com.jabg.modulo6p2.databinding.FragmentAlbumsBinding
 import com.jabg.modulo6p2.ui.MainActivity
 import com.jabg.modulo6p2.ui.MainViewModel
 import com.jabg.modulo6p2.ui.adapters.AlbumAdapter
+import com.jabg.modulo6p2.utils.message
 import kotlinx.coroutines.launch
 
 class AlbumsFragment : Fragment() {
@@ -26,6 +36,10 @@ class AlbumsFragment : Fragment() {
 
     private val viewModel : MainViewModel by viewModels()
     private lateinit var albumAdapter : AlbumAdapter
+
+    private lateinit var firebaseAuth: FirebaseAuth
+    private var firebaseUser: FirebaseUser? = null
+
 
 
     override fun onCreateView(
@@ -39,6 +53,14 @@ class AlbumsFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        firebaseAuth = FirebaseAuth.getInstance()
+        firebaseUser = firebaseAuth.currentUser
+
+        binding.btnCloseSession.setOnClickListener {
+            closeSession()
+        }
+
 
         binding.swSound.setOnCheckedChangeListener { _, isChecked ->
             if (isChecked) {
@@ -91,6 +113,23 @@ class AlbumsFragment : Fragment() {
 
                 }
 
+    }
+
+    private fun closeSession() {
+        MaterialAlertDialogBuilder(requireContext(), R.style.CustomAlertDialog)
+            .setTitle(getString(R.string.close_title))
+            .setMessage(getString(R.string.close_message))
+            .setPositiveButton(getString(R.string.close)) { _, _ ->
+                firebaseAuth.signOut()
+                startActivity(Intent(requireActivity(), LoginActivity::class.java))
+                Toast.makeText(requireContext(), getString(R.string.close_success),Toast.LENGTH_SHORT).show()
+                requireActivity().finish()
+            }
+            .setNegativeButton(getString(R.string.cancel)) { dialog, _ ->
+                dialog.dismiss()
+            }
+            .create()
+            .show()
     }
 
 

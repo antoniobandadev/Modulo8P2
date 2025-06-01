@@ -22,6 +22,7 @@
             android:orientation="horizontal"
             android:gravity="end"
             >
+
             <ImageView
                 android:id="@+id/imgSound"
                 android:layout_width="30dp"
@@ -36,7 +37,21 @@
                 android:checked="true"
                 android:layout_marginEnd="5dp"
                 android:thumbTint="@color/colorAccent"
+                android:layout_gravity="start"
                 tools:ignore="UseSwitchCompatOrMaterialXml" />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="8"/>
+
+            <ImageView
+                android:id="@+id/btnCloseSession"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:src="@drawable/ic_log_out"
+                app:tint="@color/colorAccent"
+                android:layout_weight="1"
+                />
         </LinearLayout>
 
         <androidx.recyclerview.widget.RecyclerView

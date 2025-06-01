@@ -2,6 +2,9 @@
     <string name="app_name">Modulo6P2</string>
     <string name="foals">Foals</string>
 
+    <string name="video">Video</string>
+    <string name="recorded">¿Donde se grabó?</string>
+    <string name="songs">Canciones</string>
     <string name="about">Acerca de</string>
     <string name="duration">Duracion</string>
     <string name="genre">Genero</string>
@@ -11,4 +14,51 @@
 
     <string name="connected">¡Estás conectado!</string>
     <string name="disconnected">¡Ups! No se puede acceder a internet</string>
+
+    <!-- Log In -->
+    <string name="email">Correo electrónico</string>
+    <string name="password">Contraseña</string>
+    <string name="login">Ingresar</string>
+    <string name="signin">Registrarse</string>
+    <string name="forgot_password">¿Olvidó su contraseña?</string>
+
+    <!-- Cerrar session -->
+    <string name="close_title">Cerrar sesión</string>
+    <string name="close_message">¿Estas seguro que quieres cerrar la sesión?</string>
+    <string name="close_success">Session cerrada exitosamente</string>
+    <string name="close">Cerrar</string>
+    <!-- Validaciones -->
+    <string name="error_required_email">Se requiere el correo</string>
+    <string name="error_invalid_email_format">El correo no tiene un formato válido</string>
+    <string name="error_required_password">Se requiere una contraseña</string>
+    <string name="error_password_length">La contraseña debe tener al menos 6 caracteres</string>
+
+    <!-- Errores de Firebase -->
+    <string name="error_invalid_email">Error: El correo electrónico no tiene un formato correcto</string>
+    <string name="error_wrong_password">Error: La contraseña no es válida</string>
+    <string name="error_existing_account">Error: Una cuenta ya existe con el mismo correo, pero con diferentes datos de ingreso</string>
+    <string name="error_email_in_use">Error: el correo electrónico ya está en uso con otra cuenta.</string>
+    <string name="error_token_expired">Error: La sesión ha expirado. Favor de ingresar nuevamente.</string>
+    <string name="error_user_not_found">Error: No existe el usuario con la información proporcionada.</string>
+    <string name="error_weak_password">La contraseña porporcionada es inválida</string>
+    <string name="error_password_strength">La contraseña debe de tener por lo menos 6 caracteres</string>
+    <string name="error_no_network">Red no disponible o se interrumpió la conexión</string>
+    <string name="error_auth_failed">Error. No se pudo autenticar exitosamente.</string>
+
+    <!-- Mensajes de éxito -->
+    <string name="auth_success">Autentificación exitosa</string>
+    <string name="registration_success">Registro exitoso</string>
+    <string name="email_verification_sent">Se envió un correo para que verifiques tu email</string>
+    <string name="email_verification_failed">No se pudo enviar el correo de verificación</string>
+    <string name="password_reset_link_sent">El enlace se envió exitosamente</string>
+    <string name="password_reset_link_failed">No se pudo enviar el enlace de recuperación</string>
+    <string name="invalid_email_input">Favor de ingresar una dirección de correo válida</string>
+
+    <!-- Diálogo de restablecer contraseña -->
+    <string name="reset_password_title">Restablecer Password</string>
+    <string name="reset_password_message">Ingrese su email para restablecer la contraseña</string>
+    <string name="send">Enviar</string>
+    <string name="cancel">Cancelar</string>
+
+
 </resources>
